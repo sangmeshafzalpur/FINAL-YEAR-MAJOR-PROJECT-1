@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chilli Leaf Diagnosis | Single & Batch AI Inference</title>
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;600;800&display=swap" rel="stylesheet">
+    <!-- Icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/animations.css">
+    <link rel="stylesheet" href="css/diagnosis.css">
+    <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+    <div id="loader-container"></div>
+    <div id="navbar-container"></div>
+    
+    <main class="container page-content">
+        <div class="page-header text-center reveal slide-up">
+            <h1 class="page-title text-gradient">Chilli Leaf Diagnosis</h1>
+            <p class="page-subtitle">Upload one or multiple chilli leaf images for instant AI diagnosis and Explainable AI (Grad-CAM) analysis.</p>
+        </div>
+
+        <div class="diagnosis-grid" id="main-diagnosis-grid">
+            
+            <!-- Upload Panel -->
+            <div class="glass-card upload-panel fade-in-left" id="upload-panel">
+                <div class="upload-zone" id="upload-zone">
+                    <input type="file" id="file-input-gallery" accept="image/jpeg, image/png, image/webp" multiple hidden> 
+                    <input type="file" id="file-input-camera" accept="image/jpeg, image/png, image/webp" capture="environment" hidden> 
+                    
+                    <!-- Idle Upload Prompt -->
+                    <div id="upload-prompt" class="upload-prompt">
+                        <i class="fas fa-cloud-upload-alt upload-icon"></i>
+                        <h3>Upload Chilli Leaf Images</h3>
+                        <p class="text-gray" style="font-size: 0.95rem; margin-bottom: 1.25rem;">Drag & drop images here or browse your device</p>
+                        <div class="upload-options" style="display: flex; justify-content: center; gap: 1rem; margin-bottom: 1rem;">
+                            <button type="button" class="btn btn-outline btn-browse" onclick="document.getElementById('file-input-gallery').click()"><i class="fas fa-images"></i> Browse Images</button>
+                            <button type="button" class="btn btn-primary btn-browse" onclick="openWebcam()"><i class="fas fa-camera"></i> Camera</button>
+                        </div>
+                        <span class="file-hint" style="display: block;">You can upload one or multiple chilli leaf images (JPG, PNG, WEBP • Max 20 images)</span>
+                        
+                        <!-- Web Camera UI (Hidden by default) -->
+                        <div id="camera-container" class="camera-zone hidden" style="margin-top: 1.5rem; width: 100%; max-width: 500px; margin-left: auto; margin-right: auto;">
+                            <video id="camera-video" autoplay playsinline style="width: 100%; border-radius: 8px; background: #000; max-height: 400px; object-fit: cover; border: 2px solid #2E7D32;"></video>
+                            <div class="camera-controls" style="margin-top: 15px; display: flex; justify-content: center; gap: 1rem;">
+                                <button type="button" id="btn-capture" class="btn btn-primary"><i class="fas fa-camera"></i> Take Photo</button>
+                                <button type="button" id="btn-close-camera" class="btn btn-outline"><i class="fas fa-times"></i> Cancel</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Single Image Preview (when exactly 1 image selected) -->
+                    <div id="image-preview-container" class="image-preview-container hidden">
+                        <img id="image-preview" src="" alt="Leaf Preview">
+                        <div class="preview-actions">
+                            <button type="button" id="btn-zoom-preview" class="btn-icon" title="Zoom"><i class="fas fa-search-plus"></i></button>
+                            <button type="button" id="btn-remove" class="btn-icon" title="Remove"><i class="fas fa-times"></i></button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Multi-Image Previews Stage (shown when multiple images are selected) -->
+                <div id="batch-preview-container" class="batch-preview-container hidden">
+                    <div class="preview-toolbar">
+                        <span class="preview-counter" id="preview-count-text">
+                            <i class="fas fa-layer-group text-green"></i> <span id="preview-count">0</span> images selected
+                        </span>
+                        <div class="preview-toolbar-actions">
+                            <button type="button" class="btn btn-outline btn-sm" onclick="document.getElementById('file-input-gallery').click()"><i class="fas fa-plus"></i> Add More</button>
+                            <button type="button" id="btn-clear-all" class="btn btn-outline btn-sm text-red"><i class="fas fa-trash-alt"></i> Clear All</button>
+                        </div>
+                    </div>
+                    <div id="preview-cards-grid" class="preview-cards-grid">
+                        <!-- Preview cards injected via JS -->
+                    </div>
+                </div>
+
+                <!-- Progress Indicator Box -->
+                <div id="diagnosis-progress-box" class="diagnosis-progress-box hidden">
+                    <div class="progress-header">
+                        <span class="progress-title"><i class="fas fa-microchip fa-spin"></i> <span id="progress-status-title">Analyzing chilli leaves...</span></span>
+                        <span id="progress-pct-text" class="progress-pct">0%</span>
+                    </div>
+                    <div class="progress-track">
+                        <div id="progress-bar-fill" class="progress-bar-fill"></div>
+                    </div>
+                    <div class="progress-meta-text">
+                        <span id="progress-step-text">Image 0 of 0</span>
+                        <span id="progress-current-filename">Starting inference...</span>
+                    </div>
+                </div>
+
+                <!-- Upload Error or Validation Notification -->
+                <div id="upload-error-msg" class="text-red text-center hidden mt-1 font-semibold" style="padding: 0.75rem; background: rgba(220, 53, 69, 0.1); border-radius: 8px;"></div>
+
+                <div class="action-buttons">
+                    <button type="button" id="btn-change" class="btn btn-outline hidden"><i class="fas fa-images"></i> Add / Change</button>
+                    <button type="button" id="btn-reset" class="btn btn-outline" disabled>Clear All</button>
+                    <button type="button" id="btn-diagnose" class="btn btn-primary" disabled><i class="fas fa-microchip"></i> <span id="btn-diagnose-label">Diagnose Leaf</span></button>
+                </div>
+            </div>
+
+            <!-- Results Panel -->
+            <div class="glass-card results-panel fade-in-right" id="results-panel">
+                
+                <!-- 1. Initial State -->
+                <div id="results-empty" class="results-state text-center">
+                    <i class="fas fa-microscope text-gray" style="font-size: 3.5rem; margin-bottom: 1rem; opacity: 0.35;"></i>
+                    <h3 style="color: #bbb; font-weight: 500;">Ready for Diagnosis</h3>
+                    <p class="text-gray mt-1">Upload one or multiple chilli leaf images on the left and click <strong>Analyze Images</strong> to inspect results.</p>
+                </div>
+
+                <!-- 2. Loading State -->
+                <div id="results-loading" class="results-state text-center hidden">
+                    <i class="fas fa-spinner fa-spin text-green" style="font-size: 3rem; margin-bottom: 1rem;"></i>
+                    <h3 class="text-green" id="loading-main-text">Analyzing Chilli Leaves...</h3>
+                    <p class="mt-1 text-gray" id="loading-sub-text">ChilliFusionNet is running inference and calculating Grad-CAM activations...</p>
+                </div>
+
+                <!-- 3. SINGLE LEAF DATA STATE (for 1 image) -->
+                <div id="results-data" class="results-state hidden">
+                    <!-- Premium Result Card -->
+                    <div class="diagnosis-card glass-card">
+                        <div class="diagnosis-card-header text-center">
+                            <span class="badge text-gray" style="display: block; margin-bottom: 0.5rem;"><i class="fas fa-check-circle text-green"></i> DIAGNOSIS COMPLETE</span>
+                        </div>
+                        <h2 id="pred-class" class="pred-class-large text-center">...</h2>
+                        
+                        <div class="main-confidence">
+                            <div class="conf-header">
+                                <span>Model Confidence</span>
+                                <span id="pred-confidence-text" class="conf-percent">0%</span>
+                            </div>
+                            <div class="conf-bar-bg">
+                                <div id="pred-confidence-bar" class="conf-bar-fill"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="results-layout mt-2">
+                        <!-- Probabilities Chart -->
+                        <div class="probs-container glass-card">
+                            <h3 class="mb-1"><i class="fas fa-chart-bar"></i> Class Probabilities</h3>
+                            <div id="probs-list" class="probs-list">
+                                <!-- Bars injected via JS -->
+                            </div>
+                        </div>
+
+                        <!-- Actions -->
+                        <div class="actions-container glass-card" style="display: flex; flex-direction: column; justify-content: space-between;">
+                            <div class="result-actions" style="display: flex; flex-direction: column; gap: 0.75rem;">
+                                <button type="button" id="btn-analyze-another" class="btn btn-primary w-100"><i class="fas fa-redo"></i> Analyze Another Leaf</button>
+                                <button type="button" id="btn-download-report" class="btn btn-secondary w-100"><i class="fas fa-download"></i> Download Report</button>
+                                <button type="button" id="btn-save-report" class="btn btn-outline w-100" style="justify-content: center;"><i class="fas fa-save"></i> Save Report</button>
+                                <a href="model.html" class="btn btn-outline w-100" style="justify-content: center;"><i class="fas fa-project-diagram"></i> View Model</a>
+                                <a href="reports.html" class="btn btn-outline w-100" style="justify-content: center;"><i class="fas fa-file-contract"></i> View Reports</a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Single Professional Printable Report (Hidden normally) -->
+                    <div id="printable-report" class="printable-report">
+                        <div class="report-header-premium">
+                            <div class="report-brand">
+                                <h2>ChilliFusionNet</h2>
+                                <p>Advanced Agricultural AI Diagnostics</p>
+                            </div>
+                            <div class="report-meta">
+                                <p><strong>Report ID:</strong> <span id="report-id">CFN-000000</span></p>
+                                <p><strong>Date Generated:</strong> <span id="report-date">...</span></p>
+                                <p><strong>Model Engine:</strong> EfficientNet-B4 + CBAM-BiLSTM</p>
+                            </div>
+                        </div>
+                        
+                        <div class="report-summary-box">
+                            <div class="box-title">PRIMARY DIAGNOSIS</div>
+                            <div class="summary-content">
+                                <div class="summary-left">
+                                    <div class="report-category" id="report-category">CATEGORY</div>
+                                    <h1 id="report-pred-name" class="pred-title">Prediction Name</h1>
+                                    <div class="conf-badge">Confidence: <strong id="report-conf-text">0.0%</strong></div>
+                                </div>
+                                <div class="summary-right">
+                                    <div class="obs-group">
+                                        <strong>OBSERVATION</strong>
+                                        <p id="report-observation">...</p>
+                                    </div>
+                                    <div class="obs-group" style="margin-top: 1rem;">
+                                        <strong>RECOMMENDED ACTION</strong>
+                                        <p id="report-recommendation">...</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="report-evidence">
+                            <div class="box-title">VISUAL EVIDENCE (EXPLAINABLE AI)</div>
+                            <div class="evidence-grid">
+                                <div class="evidence-item">
+                                    <div class="evidence-img-container"><img id="report-img-original" src="" alt="Original"></div>
+                                    <span>Original Upload</span>
+                                </div>
+                                <div class="evidence-item">
+                                    <div class="evidence-img-container"><img id="report-img-gradcam" src="" alt="Grad-CAM"></div>
+                                    <span>Grad-CAM Activation</span>
+                                </div>
+                                <div class="evidence-item">
+                                    <div class="evidence-img-container"><img id="report-img-overlay" src="" alt="Overlay"></div>
+                                    <span>Analysis Overlay</span>
+                                </div>
+                            </div>
+                            <div id="report-no-xai" class="hidden text-center text-gray" style="padding: 1rem;">
+                                <em>Visual evidence (Grad-CAM) is unavailable for this image.</em>
+                            </div>
+                        </div>
+                        
+                        <div class="report-stats">
+                            <div class="box-title">PROBABILITY BREAKDOWN</div>
+                            <div id="report-probs-list" class="report-probs-premium">
+                                <!-- JS Populated -->
+                            </div>
+                        </div>
+                        
+                        <div class="report-footer">
+                            <p>This report was automatically generated by the ChilliFusionNet AI model. It is intended for research, academic evaluation, and demonstration purposes. For conclusive agricultural decisions, consult a certified agronomist.</p>
+                            <p><strong>© ChilliFusionNet Project</strong></p>
+                        </div>
+                    </div>
+                    
+                    <!-- Grad-CAM Section (for single leaf) -->
+                    <div id="xai-section" class="glass-card mt-2 hidden fade-in-up">
+                        <div class="diagnosis-card-header flex-between">
+                            <h3 class="mb-1"><i class="fas fa-brain"></i> Explainable AI Analysis</h3>
+                            <div class="xai-controls">
+                                <button type="button" id="btn-fullscreen-xai" class="btn-icon" title="Fullscreen"><i class="fas fa-expand"></i></button>
+                                <button type="button" id="btn-close-xai" class="btn-icon" title="Close"><i class="fas fa-times"></i></button>
+                            </div>
+                        </div>
+                        <p class="text-gray mb-1">
+                            Grad-CAM visualizes the model's internal activations. 
+                            <strong>Highlighted regions indicate image areas that contributed strongly to the model's prediction.</strong>
+                        </p>
+                        
+                        <div class="xai-grid" id="xai-grid">
+                            <!-- Original Image -->
+                            <div class="xai-box professional-card">
+                                <div class="xai-box-header">
+                                    <span class="xai-label"><i class="fas fa-image"></i> Original Image</span>
+                                    <button type="button" class="btn-icon zoom-btn" data-target="xai-original-img"><i class="fas fa-search-plus"></i></button>
+                                </div>
+                                <div class="xai-placeholder zoomable-container">
+                                    <img id="xai-original-img" src="" alt="Original Image">
+                                </div>
+                            </div>
+                            
+                            <!-- Grad-CAM (Grayscale) -->
+                            <div class="xai-box professional-card">
+                                <div class="xai-box-header">
+                                    <span class="xai-label"><i class="fas fa-layer-group"></i> Grad-CAM</span>
+                                    <button type="button" class="btn-icon zoom-btn" data-target="xai-gradcam-img"><i class="fas fa-search-plus"></i></button>
+                                </div>
+                                <div class="xai-placeholder zoomable-container">
+                                    <img id="xai-gradcam-img" src="" alt="Grad-CAM Activation">
+                                </div>
+                            </div>
+
+                            <!-- Heatmap (Colored) -->
+                            <div class="xai-box professional-card">
+                                <div class="xai-box-header">
+                                    <span class="xai-label"><i class="fas fa-fire"></i> Heatmap</span>
+                                    <button type="button" class="btn-icon zoom-btn" data-target="xai-heatmap-img"><i class="fas fa-search-plus"></i></button>
+                                </div>
+                                <div class="xai-placeholder zoomable-container">
+                                    <img id="xai-heatmap-img" src="" alt="Colored Heatmap">
+                                </div>
+                            </div>
+
+                            <!-- Overlay & Compare -->
+                            <div class="xai-box professional-card">
+                                <div class="xai-box-header">
+                                    <span class="xai-label"><i class="fas fa-object-group"></i> Overlay</span>
+                                    <div class="xai-card-actions">
+                                        <button type="button" class="btn-icon compare-btn" id="btn-compare" title="Compare"><i class="fas fa-sliders-h"></i></button>
+                                        <button type="button" class="btn-icon zoom-btn" data-target="xai-overlay-img"><i class="fas fa-search-plus"></i></button>
+                                    </div>
+                                </div>
+                                <div class="xai-placeholder zoomable-container" id="compare-container">
+                                    <img id="xai-overlay-img" src="" alt="Overlay">
+                                    <div id="compare-slider-wrapper" class="hidden">
+                                        <div class="compare-img-wrapper" id="compare-img-wrapper">
+                                            <img id="xai-compare-original" src="" alt="Original Compare">
+                                        </div>
+                                        <input type="range" min="0" max="100" value="50" id="compare-slider" class="compare-slider">
+                                        <div class="compare-handle" id="compare-handle"><i class="fas fa-arrows-alt-h"></i></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="xai-error" class="text-gray hidden mt-1 text-center" style="padding: 2rem; background: rgba(0,0,0,0.2); border-radius: 8px;">
+                            <i class="fas fa-eye-slash" style="font-size: 2rem; margin-bottom: 1rem; opacity: 0.5;"></i>
+                            <p>Explainability visualization unavailable for this image.</p>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- 4. BATCH DIAGNOSIS RESULTS STATE (for multiple images) -->
+                <div id="batch-results-data" class="results-state hidden">
+                    
+                    <!-- Batch Summary Dashboard -->
+                    <div class="batch-summary-card">
+                        <div class="batch-header-bar">
+                            <h2 class="batch-title">
+                                <i class="fas fa-clipboard-check text-green"></i> Batch Diagnosis Results
+                            </h2>
+                            <div class="batch-actions-header" style="display: flex; gap: 0.5rem;">
+                                <button type="button" id="btn-download-batch-report" class="btn btn-primary btn-sm"><i class="fas fa-file-pdf"></i> Download Batch Report</button>
+                                <button type="button" id="btn-save-batch-report" class="btn btn-secondary btn-sm"><i class="fas fa-save"></i> Save Report</button>
+                            </div>
+                        </div>
+
+                        <!-- Partial failure banner (if any failed) -->
+                        <div id="batch-failed-alert" class="failed-images-alert hidden">
+                            <div class="failed-alert-title">
+                                <i class="fas fa-exclamation-triangle"></i> <span id="failed-alert-heading">Notice: Some images could not be processed</span>
+                            </div>
+                            <ul id="failed-alert-list" class="failed-alert-list"></ul>
+                        </div>
+
+                        <!-- Key Metrics Grid -->
+                        <div class="batch-metrics-grid">
+                            <div class="metric-pill">
+                                <div class="metric-pill-label">Total Images</div>
+                                <div class="metric-pill-val" id="bm-total">0</div>
+                            </div>
+                            <div class="metric-pill success">
+                                <div class="metric-pill-label">Analyzed</div>
+                                <div class="metric-pill-val" id="bm-successful">0</div>
+                            </div>
+                            <div class="metric-pill danger" id="bm-failed-card">
+                                <div class="metric-pill-label">Failed</div>
+                                <div class="metric-pill-val" id="bm-failed">0</div>
+                            </div>
+                            <div class="metric-pill success">
+                                <div class="metric-pill-label">Healthy Leaves</div>
+                                <div class="metric-pill-val" id="bm-healthy">0</div>
+                            </div>
+                            <div class="metric-pill danger">
+                                <div class="metric-pill-label">Diseased Leaves</div>
+                                <div class="metric-pill-val" id="bm-diseased">0</div>
+                            </div>
+                            <div class="metric-pill primary">
+                                <div class="metric-pill-label">Avg. Confidence</div>
+                                <div class="metric-pill-val" id="bm-avg-conf">0%</div>
+                            </div>
+                            <div class="metric-pill warning">
+                                <div class="metric-pill-label">Top Condition</div>
+                                <div class="metric-pill-val" id="bm-most-detected" style="font-size: 1.15rem; line-height: 1.3;">-</div>
+                            </div>
+                        </div>
+
+                        <!-- Disease Distribution Visual Progress Bars -->
+                        <div class="distribution-box">
+                            <div class="distribution-title">
+                                <i class="fas fa-chart-pie text-green"></i> Disease Distribution
+                            </div>
+                            <div class="distribution-grid" id="batch-distribution-list">
+                                <!-- Populated dynamically by JS -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Batch Controls Toolbar (Filtering & Sorting) -->
+                    <div class="batch-controls-bar">
+                        <div class="filter-chips-wrapper">
+                            <button type="button" class="filter-chip active" data-filter="all">All (<span id="filter-count-all">0</span>)</button>
+                            <button type="button" class="filter-chip" data-filter="healthy"><i class="fas fa-shield-alt text-green"></i> Healthy (<span id="filter-count-healthy">0</span>)</button>
+                            <button type="button" class="filter-chip" data-filter="diseased"><i class="fas fa-virus text-red"></i> Diseased (<span id="filter-count-diseased">0</span>)</button>
+                            <button type="button" class="filter-chip" data-filter="cercospora">Cercospora (<span id="filter-count-cercospora">0</span>)</button>
+                            <button type="button" class="filter-chip" data-filter="mites">Mites & Thrips (<span id="filter-count-mites">0</span>)</button>
+                            <button type="button" class="filter-chip" data-filter="nutritional">Nutritional (<span id="filter-count-nutritional">0</span>)</button>
+                            <button type="button" class="filter-chip" data-filter="powdery">Powdery Mildew (<span id="filter-count-powdery">0</span>)</button>
+                        </div>
+                        <div class="batch-sort-wrapper">
+                            <span class="batch-sort-label"><i class="fas fa-sort"></i> Sort by:</span>
+                            <select id="batch-sort-select" class="sort-select">
+                                <option value="upload">Upload Order (Default)</option>
+                                <option value="confidence-high">Highest Confidence</option>
+                                <option value="confidence-low">Lowest Confidence</option>
+                                <option value="name">Disease Name (A-Z)</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Individual Result Cards Grid -->
+                    <div class="batch-cards-grid" id="batch-cards-grid">
+                        <!-- Result cards injected by JS -->
+                    </div>
+
+                    <!-- Batch Action Buttons Bottom -->
+                    <div class="mt-2 text-center" style="display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap;">
+                        <button type="button" id="btn-batch-test-more" class="btn btn-primary"><i class="fas fa-redo"></i> Test More Images</button>
+                        <button type="button" id="btn-batch-clear" class="btn btn-outline"><i class="fas fa-trash-alt"></i> Clear Results</button>
+                        <a href="reports.html" class="btn btn-outline"><i class="fas fa-file-contract"></i> View Saved Reports</a>
+                    </div>
+
+                </div>
+
+                <!-- 5. Error State -->
+                <div id="results-error" class="results-state text-center hidden">
+                    <i class="fas fa-exclamation-triangle text-red" style="font-size: 3.5rem; margin-bottom: 1rem;"></i>
+                    <h3 id="error-message" class="text-red">Unable to complete diagnosis.</h3>
+                    <p id="error-subtext" class="text-gray mt-1">Please check the backend connection and try again.</p>
+                    <button type="button" class="btn btn-outline mt-2" onclick="document.getElementById('btn-reset').click()">Try Again</button>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Fullscreen Image Zoom Modal -->
+        <div id="image-modal" class="image-modal hidden">
+            <span class="modal-close" id="modal-close">&times;</span>
+            <img class="modal-content" id="modal-img" alt="Zoomed View">
+            <div id="modal-caption"></div>
+        </div>
+
+        <!-- Leaf Detail & Grad-CAM Modal (for batch item inspect) -->
+        <div id="leaf-detail-modal" class="image-modal hidden">
+            <div class="detail-modal-card">
+                <div class="detail-modal-header">
+                    <div>
+                        <span class="card-leaf-badge" id="modal-detail-badge">Image 1</span>
+                        <h2 id="modal-detail-title" class="pred-class-large mt-1" style="font-size: 1.8rem; margin: 0.35rem 0;">Diagnosis Details</h2>
+                        <p id="modal-detail-filename" class="text-gray" style="font-size: 0.85rem;">filename.jpg</p>
+                    </div>
+                    <button type="button" class="detail-modal-close" id="btn-close-detail-modal">&times;</button>
+                </div>
+
+                <!-- Evidence comparison -->
+                <div class="detail-images-compare">
+                    <div class="detail-img-box">
+                        <img id="modal-detail-orig" src="" alt="Original Upload">
+                        <span>Original Image</span>
+                    </div>
+                    <div class="detail-img-box">
+                        <img id="modal-detail-overlay" src="" alt="Grad-CAM Overlay">
+                        <span>Grad-CAM Activation Overlay</span>
+                    </div>
+                </div>
+
+                <!-- Detail description & recommendation -->
+                <div class="glass-card mb-1" style="padding: 1rem;">
+                    <div class="obs-group">
+                        <strong style="color: #a5d6a7;"><i class="fas fa-search"></i> Agronomic Observation:</strong>
+                        <p id="modal-detail-obs" class="mt-1 text-gray" style="font-size: 0.9rem;">-</p>
+                    </div>
+                    <div class="obs-group mt-1">
+                        <strong style="color: #81c784;"><i class="fas fa-hand-holding-medical"></i> Recommended Action:</strong>
+                        <p id="modal-detail-rec" class="mt-1 text-gray" style="font-size: 0.9rem;">-</p>
+                    </div>
+                </div>
+
+                <!-- Probabilities Breakdown in Modal -->
+                <div class="glass-card mb-1" style="padding: 1rem;">
+                    <h4 class="mb-1" style="font-size: 0.95rem;"><i class="fas fa-chart-bar"></i> Confidence & Class Probabilities</h4>
+                    <div id="modal-detail-probs" class="probs-list"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Printable Batch Report (Rendered for Print/PDF export) -->
+        <div id="printable-batch-report" class="printable-batch-report">
+            <div class="report-header-premium">
+                <div class="report-brand">
+                    <h2>ChilliFusionNet</h2>
+                    <p>Agricultural AI Batch Diagnosis Report</p>
+                </div>
+                <div class="report-meta">
+                    <p><strong>Report ID:</strong> <span id="print-batch-id">CFN-BATCH-0000</span></p>
+                    <p><strong>Date Generated:</strong> <span id="print-batch-date">...</span></p>
+                    <p><strong>Total Images Tested:</strong> <span id="print-batch-total">0</span></p>
+                </div>
+            </div>
+
+            <div class="report-summary-box" style="margin-top: 1.5rem;">
+                <div class="box-title">BATCH SUMMARY OVERVIEW</div>
+                <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; padding: 1rem; text-align: center;">
+                    <div><strong>Total Tested</strong><p id="print-sum-total" style="font-size: 1.4rem; font-weight: bold;">0</p></div>
+                    <div><strong>Healthy Leaves</strong><p id="print-sum-healthy" style="font-size: 1.4rem; color: #2e7d32; font-weight: bold;">0</p></div>
+                    <div><strong>Diseased Leaves</strong><p id="print-sum-diseased" style="font-size: 1.4rem; color: #c62828; font-weight: bold;">0</p></div>
+                    <div><strong>Average Confidence</strong><p id="print-sum-avgconf" style="font-size: 1.4rem; font-weight: bold;">0%</p></div>
+                </div>
+            </div>
+
+            <div style="margin-top: 1.5rem;">
+                <h3>Itemized Batch Results</h3>
+                <table class="print-batch-table">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Image Filename</th>
+                            <th>Predicted Condition</th>
+                            <th>Status</th>
+                            <th>Confidence</th>
+                            <th>Agronomic Recommendation</th>
+                        </tr>
+                    </thead>
+                    <tbody id="print-batch-table-body">
+                        <!-- Injected via JS -->
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="report-footer" style="margin-top: 2rem;">
+                <p>This batch report was generated by ChilliFusionNet inference pipeline using model <em>chillifusionnet_final.keras</em>.</p>
+                <p><strong>© ChilliFusionNet Project • Final Year Agronomic AI System</strong></p>
+            </div>
+        </div>
+
+    </main>
+
+    <div id="footer-container"></div>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <script src="js/api.js"></script>
+    <script src="js/app.js"></script>
+    <script src="js/diagnosis.js"></script>
+</body>
+</html>

@@ -1,0 +1,45 @@
+[
+  {
+    "id": "BATCH-TEST-AUTO",
+    "type": "batch",
+    "title": "Automated Test Batch",
+    "date": "08 Oct 2026",
+    "total_images": 5,
+    "summary_text": "4 Healthy / 1 Diseased",
+    "healthy_count": 4,
+    "diseased_count": 1,
+    "avg_confidence": 98.6
+  },
+  {
+    "id": "BATCH-20261008-01",
+    "type": "batch",
+    "title": "Batch Diagnosis",
+    "date": "08 Oct 2026",
+    "timestamp": "2026-10-08T10:30:00",
+    "total_images": 10,
+    "summary_text": "8 Healthy / 2 Diseased",
+    "healthy_count": 8,
+    "diseased_count": 2,
+    "most_detected": "Healthy",
+    "avg_confidence": 97.82,
+    "distribution": {
+      "Healthy": 8,
+      "Cercospora": 1,
+      "Mites and Trips": 0,
+      "Nutritional": 0,
+      "Powdery Mildew": 1
+    }
+  },
+  {
+    "id": "SINGLE-20261008-02",
+    "type": "single",
+    "title": "Single Diagnosis",
+    "date": "08 Oct 2026",
+    "timestamp": "2026-10-08T11:15:00",
+    "total_images": 1,
+    "summary_text": "Powdery Mildew",
+    "prediction": "Powdery Mildew",
+    "confidence": 98.72,
+    "status": "Disease Detected"
+  }
+]

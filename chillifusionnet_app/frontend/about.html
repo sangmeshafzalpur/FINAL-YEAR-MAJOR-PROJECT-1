@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About The Project | ChilliFusionNet</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;600;800&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/about.css">
+    <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+    <div id="navbar-container"></div>
+    
+    <main class="container page-content">
+        <!-- HERO Section -->
+        <div class="about-header fade-in-up">
+            <h1 class="page-title">The ChilliFusionNet Story</h1>
+            <h2 class="about-subtitle">Pioneering AI in Precision Agriculture</h2>
+        </div>
+
+        <!-- Problem Section -->
+        <section class="story-section fade-in-up" style="animation-delay: 0.1s;">
+            <h2 class="story-title"><i class="fas fa-exclamation-circle"></i> The Problem</h2>
+            <div class="story-text">
+                <p>Chilli pepper crops are highly susceptible to various fungal, bacterial, and pest-related diseases, which can drastically reduce yield and quality. Early and accurate detection of these diseases is critical for effective intervention. However, traditional visual inspection by farmers is slow, labor-intensive, and prone to human error, often leading to delayed treatment and substantial economic losses.</p>
+            </div>
+        </section>
+
+        <!-- Objective Section -->
+        <section class="story-section fade-in-up" style="animation-delay: 0.2s;">
+            <h2 class="story-title"><i class="fas fa-bullseye"></i> The Objective</h2>
+            <div class="story-text">
+                <p>The primary objective of this project is to develop a robust, highly accurate, and explainable deep learning model capable of automatically diagnosing chilli leaf diseases from field images. By integrating advanced computer vision techniques, ChilliFusionNet aims to provide agronomists and farmers with a rapid, reliable tool that not only predicts the disease but also visually explains its decision, fostering trust in AI-driven agricultural solutions.</p>
+            </div>
+        </section>
+
+        <!-- Methodology Section -->
+        <section class="story-section fade-in-up" style="animation-delay: 0.3s;">
+            <h2 class="story-title"><i class="fas fa-cogs"></i> Methodology</h2>
+            <div class="story-text">
+                <p>We approached the problem by designing a hybrid deep learning architecture. We utilized Transfer Learning by employing a pre-trained EfficientNetB4 model as our backbone feature extractor. To enhance the model's focus on critical disease symptoms and suppress irrelevant background noise, we integrated a Convolutional Block Attention Module (CBAM). Finally, to capture complex spatial dependencies within the leaf structure, we incorporated a Bidirectional Long Short-Term Memory (BiLSTM) network before the final classification head.</p>
+            </div>
+        </section>
+
+        <!-- Dataset Section -->
+        <section class="story-section fade-in-up" style="animation-delay: 0.4s;">
+            <h2 class="story-title"><i class="fas fa-database"></i> The Dataset</h2>
+            <div class="story-text">
+                <p>The model was trained and rigorously evaluated on a comprehensive dataset of chilli leaf images. The dataset encompasses 5 distinct classes, representing various health conditions and diseases such as Cercospora, Powdery Mildew, Nutritional deficiencies, Mites & Thrips, and Healthy leaves. Extensive data augmentation techniques were applied to ensure the model generalizes well to varying field conditions, lighting, and angles.</p>
+            </div>
+        </section>
+
+        <!-- Model Section -->
+        <section class="story-section fade-in-up" style="animation-delay: 0.5s;">
+            <h2 class="story-title"><i class="fas fa-network-wired"></i> The Model Architecture</h2>
+            <div class="story-text">
+                <p>ChilliFusionNet is a state-of-the-art fusion architecture designed specifically for fine-grained image classification in agriculture.</p>
+                <ul style="margin-top: 1rem; padding-left: 2rem; list-style-type: square; line-height: 1.8;">
+                    <li><strong>EfficientNetB4:</strong> Extracts rich hierarchical features efficiently.</li>
+                    <li><strong>CBAM:</strong> Applies sequential Channel and Spatial attention, directing the network to "what" and "where" the crucial features are.</li>
+                    <li><strong>BiLSTM:</strong> Processes the flattened spatial features sequentially in both directions to understand structural contexts.</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- Explainable AI Section -->
+        <section class="story-section fade-in-up" style="animation-delay: 0.6s;">
+            <h2 class="story-title"><i class="fas fa-brain"></i> Explainable AI (XAI)</h2>
+            <div class="story-text">
+                <p>A "black-box" model is insufficient for critical agricultural applications. We integrated Gradient-weighted Class Activation Mapping (Grad-CAM) to provide visual explanations for every prediction. By generating heatmaps overlaid on the original input, ChilliFusionNet explicitly highlights the diseased regions (e.g., specific spots or lesions) that influenced its decision, ensuring transparency and aiding agronomists in verification.</p>
+            </div>
+        </section>
+
+        <!-- System Workflow Section -->
+        <section class="story-section fade-in-up" style="animation-delay: 0.7s;">
+            <h2 class="story-title"><i class="fas fa-project-diagram"></i> System Workflow</h2>
+            
+            <div class="workflow-container">
+                <div class="workflow-node">
+                    <div class="workflow-icon"><i class="fas fa-leaf"></i></div>
+                    <div class="workflow-title">Chilli Leaf</div>
+                </div>
+                <div class="workflow-arrow"></div>
+                
+                <div class="workflow-node">
+                    <div class="workflow-icon"><i class="fas fa-upload"></i></div>
+                    <div class="workflow-title">Image Upload</div>
+                </div>
+                <div class="workflow-arrow"></div>
+                
+                <div class="workflow-node">
+                    <div class="workflow-icon"><i class="fas fa-crop-alt"></i></div>
+                    <div class="workflow-title">Preprocessing</div>
+                </div>
+                <div class="workflow-arrow"></div>
+                
+                <div class="workflow-node">
+                    <div class="workflow-icon"><i class="fas fa-network-wired"></i></div>
+                    <div class="workflow-title">ChilliFusionNet Model</div>
+                </div>
+                <div class="workflow-arrow"></div>
+                
+                <div class="workflow-node">
+                    <div class="workflow-icon"><i class="fas fa-stethoscope"></i></div>
+                    <div class="workflow-title">Disease Prediction</div>
+                </div>
+                <div class="workflow-arrow"></div>
+                
+                <div class="workflow-node">
+                    <div class="workflow-icon"><i class="fas fa-percentage"></i></div>
+                    <div class="workflow-title">Confidence Score</div>
+                </div>
+                <div class="workflow-arrow"></div>
+                
+                <div class="workflow-node">
+                    <div class="workflow-icon"><i class="fas fa-fire"></i></div>
+                    <div class="workflow-title">Grad-CAM Activation</div>
+                </div>
+                <div class="workflow-arrow"></div>
+                
+                <div class="workflow-node">
+                    <div class="workflow-icon"><i class="fas fa-check-double"></i></div>
+                    <div class="workflow-title">Explainable Result</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Technology Stack Section -->
+        <section class="story-section fade-in-up" style="animation-delay: 0.8s;">
+            <h2 class="story-title"><i class="fas fa-laptop-code"></i> Technology Stack</h2>
+            <div class="story-text">
+                <p>The system is built upon a robust, modern technology stack spanning advanced deep learning frameworks and responsive web technologies.</p>
+            </div>
+            <div class="tech-grid">
+                <div class="tech-card">
+                    <i class="fab fa-python tech-icon tech-python"></i>
+                    <div class="tech-title">Python</div>
+                </div>
+                <div class="tech-card">
+                    <i class="fas fa-brain tech-icon tech-tf"></i>
+                    <div class="tech-title">TensorFlow & Keras</div>
+                </div>
+                <div class="tech-card">
+                    <i class="fas fa-project-diagram tech-icon tech-dl"></i>
+                    <div class="tech-title">EfficientNetB4</div>
+                </div>
+                <div class="tech-card">
+                    <i class="fas fa-eye tech-icon tech-dl"></i>
+                    <div class="tech-title">CBAM & BiLSTM</div>
+                </div>
+                <div class="tech-card">
+                    <i class="fas fa-server tech-icon tech-api"></i>
+                    <div class="tech-title">REST API (FastAPI)</div>
+                </div>
+                <div class="tech-card">
+                    <i class="fab fa-html5 tech-icon tech-html"></i>
+                    <div class="tech-title">HTML5</div>
+                </div>
+                <div class="tech-card">
+                    <i class="fab fa-css3-alt tech-icon tech-css"></i>
+                    <div class="tech-title">CSS3 (Glassmorphism)</div>
+                </div>
+                <div class="tech-card">
+                    <i class="fab fa-js tech-icon tech-js"></i>
+                    <div class="tech-title">JavaScript</div>
+                </div>
+                <div class="tech-card">
+                    <i class="fas fa-chart-bar tech-icon tech-chart"></i>
+                    <div class="tech-title">Chart.js</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Future Scope Section -->
+        <section class="story-section fade-in-up" style="animation-delay: 0.9s;">
+            <h2 class="story-title"><i class="fas fa-rocket"></i> Future Scope</h2>
+            <div class="story-text">
+                <p>Looking ahead, ChilliFusionNet has immense potential for expansion. Future iterations aim to integrate edge computing to deploy the model directly onto mobile devices and agricultural drones for real-time, offline field analysis. Additionally, we plan to expand the dataset to include multi-crop disease detection and incorporate temporal data analysis to predict disease outbreaks based on weather and environmental conditions.</p>
+            </div>
+        </section>
+    </main>
+
+    <div id="footer-container"></div>
+
+    <script src="js/app.js"></script>
+</body>
+</html>

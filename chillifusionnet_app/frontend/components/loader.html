@@ -1,0 +1,27 @@
+<!-- loader.html -->
+<div id="ai-analysis-loader" class="loader-overlay hidden" aria-live="assertive" aria-busy="false" role="dialog" aria-modal="true">
+    <div class="loader-content">
+        <!-- Real Chilli Visual -->
+        <div class="loader-visual-container">
+            <!-- Glow effect behind chilli -->
+            <div class="loader-glow"></div>
+            <!-- The real chilli image (Floating + Pulse) -->
+            <img src="assets/images/chilli/real-chilli-loader.png" 
+                 alt="Analyzing Chilli..." 
+                 class="loader-real-chilli"
+                 onerror="this.src='assets/images/chilli/real-chilli-loader.jpg'">
+        </div>
+        
+        <!-- Text Content -->
+        <div class="loader-text-container">
+            <h2 class="loader-title">Analyzing Chilli Leaf</h2>
+            <p class="loader-subtitle text-gradient">ChilliFusionNet is examining the uploaded image...</p>
+            
+            <!-- Dynamic Status Text -->
+            <div class="loader-status-container">
+                <i class="fas fa-circle-notch fa-spin status-icon text-chilli-red"></i>
+                <span id="loader-dynamic-status" class="loader-dynamic-text">Preparing image...</span>
+            </div>
+        </div>
+    </div>
+</div>

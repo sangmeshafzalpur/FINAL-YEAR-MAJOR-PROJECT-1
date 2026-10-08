@@ -1,0 +1,6 @@
+Class,Sensitivity,Specificity
+cercospora,0.9984,0.9988
+healthy,1.0,1.0
+mites_and_trips,1.0,1.0
+nutritional,1.0,1.0
+powdery mildew,0.9934,0.9995

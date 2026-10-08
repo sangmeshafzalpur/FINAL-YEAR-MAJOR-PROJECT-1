@@ -1,0 +1,8 @@
+{
+    "training_samples": 8915,
+    "validation_samples": 2195,
+    "initial_epochs_requested": 10,
+    "fine_tuning_epochs_requested": 50,
+    "actual_epochs_run": 44,
+    "training_time": "207.71 minutes"
+}

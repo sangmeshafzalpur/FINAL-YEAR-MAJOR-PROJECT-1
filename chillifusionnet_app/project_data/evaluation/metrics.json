@@ -1,0 +1,11 @@
+{
+    "test_samples": 2225,
+    "test_accuracy": 0.9987,
+    "test_loss": 0.0032,
+    "macro_precision": 0.9987,
+    "macro_recall": 0.9984,
+    "macro_f1": 0.9985,
+    "macro_auc": 1.0,
+    "macro_sensitivity": 0.9984,
+    "macro_specificity": 0.9997
+}

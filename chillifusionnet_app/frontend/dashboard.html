@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ChilliFusionNet Intelligence Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;600;800&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/dashboard.css">
+</head>
+<body>
+    <div class="dashboard-layout">
+        <!-- Sidebar -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <a href="index.html" class="sidebar-brand">
+                    <i class="fas fa-leaf"></i> CFN Lab
+                </a>
+                <button class="mobile-close" id="mobile-close"><i class="fas fa-times"></i></button>
+            </div>
+            <nav class="sidebar-nav">
+                <a href="dashboard.html" class="nav-item active" aria-current="page"><i class="fas fa-chart-pie" aria-hidden="true"></i> Dashboard</a>
+                <a href="diagnosis.html" class="nav-item"><i class="fas fa-microscope" aria-hidden="true"></i> Diagnosis</a>
+                <a href="model.html" class="nav-item"><i class="fas fa-network-wired" aria-hidden="true"></i> Model</a>
+                <a href="#" class="nav-item"><i class="fas fa-dumbbell" aria-hidden="true"></i> Training</a>
+                <a href="#" class="nav-item"><i class="fas fa-check-double" aria-hidden="true"></i> Evaluation</a>
+                <a href="#" class="nav-item"><i class="fas fa-brain" aria-hidden="true"></i> Explainable AI</a>
+                <a href="reports.html" class="nav-item"><i class="fas fa-file-alt" aria-hidden="true"></i> Reports</a>
+                <a href="index.html#about" class="nav-item mt-auto"><i class="fas fa-info-circle" aria-hidden="true"></i> About</a>
+            </nav>
+            <div class="sidebar-footer">
+                <div class="status-indicator">
+                    <div class="status-dot online"></div>
+                    <span id="model-status-text">Checking Status...</span>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Wrapper -->
+        <div class="main-wrapper">
+            <!-- Top Navigation -->
+            <header class="topbar">
+                <button class="mobile-toggle" id="mobile-toggle"><i class="fas fa-bars"></i></button>
+                <div class="topbar-title">
+                    <h1>ChilliFusionNet Intelligence</h1>
+                    <p class="topbar-subtitle">AI-powered chilli leaf disease analysis</p>
+                </div>
+                <div class="topbar-actions">
+                    <!-- Quick Actions -->
+                    <a href="diagnosis.html" class="btn btn-primary btn-sm"><i class="fas fa-stethoscope"></i> Diagnose Leaf</a>
+                    <a href="model.html" class="btn btn-secondary btn-sm"><i class="fas fa-network-wired"></i> Explore Model</a>
+                    <a href="reports.html" class="btn btn-secondary btn-sm"><i class="fas fa-file-alt"></i> View Reports</a>
+                </div>
+            </header>
+
+            <!-- Dashboard Content -->
+            <main class="dashboard-content">
+                <!-- Top Metric Cards -->
+                <div class="metrics-grid">
+                    <div class="metric-card"><span class="metric-title">Model Accuracy</span><span class="metric-value" id="val-accuracy"><div class="skeleton-text" style="width: 80px; height: 30px;"></div></span></div>
+                    <div class="metric-card"><span class="metric-title">Classes</span><span class="metric-value" id="val-classes"><div class="skeleton-text" style="width: 40px; height: 30px;"></div></span></div>
+                    <div class="metric-card"><span class="metric-title">Training Images</span><span class="metric-value" id="val-train-img"><div class="skeleton-text" style="width: 60px; height: 30px;"></div></span></div>
+                    <div class="metric-card"><span class="metric-title">Validation Images</span><span class="metric-value" id="val-val-img"><div class="skeleton-text" style="width: 60px; height: 30px;"></div></span></div>
+                    <div class="metric-card"><span class="metric-title">Test Images</span><span class="metric-value" id="val-test-img"><div class="skeleton-text" style="width: 60px; height: 30px;"></div></span></div>
+                    <div class="metric-card"><span class="metric-title">Best Epoch</span><span class="metric-value" id="val-best-epoch"><div class="skeleton-text" style="width: 40px; height: 30px;"></div></span></div>
+                    <div class="metric-card"><span class="metric-title">Input Resolution</span><span class="metric-value" id="val-resolution"><div class="skeleton-text" style="width: 100px; height: 30px;"></div></span></div>
+                    <div class="metric-card"><span class="metric-title">Model Architecture</span><span class="metric-value" id="val-architecture" style="font-size: 1.1rem;"><div class="skeleton-text" style="width: 120px; height: 30px;"></div></span></div>
+                </div>
+
+                <!-- Final Analytics Cards -->
+                <h3 class="section-heading mt-2">Final Epoch Performance</h3>
+                <div class="analytics-cards">
+                    <div class="analytics-card">
+                        <i class="fas fa-bullseye card-icon"></i>
+                        <div><span class="ac-title">Training Accuracy</span><span class="ac-val" id="fin-train-acc">...</span></div>
+                    </div>
+                    <div class="analytics-card">
+                        <i class="fas fa-check-circle card-icon"></i>
+                        <div><span class="ac-title">Validation Accuracy</span><span class="ac-val" id="fin-val-acc">...</span></div>
+                    </div>
+                    <div class="analytics-card">
+                        <i class="fas fa-chart-line card-icon" style="color: #ff9800;"></i>
+                        <div><span class="ac-title">Training Loss</span><span class="ac-val" id="fin-train-loss">...</span></div>
+                    </div>
+                    <div class="analytics-card">
+                        <i class="fas fa-exclamation-triangle card-icon" style="color: #f44336;"></i>
+                        <div><span class="ac-title">Validation Loss</span><span class="ac-val" id="fin-val-loss">...</span></div>
+                    </div>
+                    <div class="analytics-card">
+                        <i class="fas fa-eye card-icon" style="color: #ab47bc;"></i>
+                        <div><span class="ac-title">Avg. Sensitivity</span><span class="ac-val" id="fin-avg-sensitivity">96.63%</span></div>
+                    </div>
+                    <div class="analytics-card">
+                        <i class="fas fa-shield-alt card-icon" style="color: #26c6da;"></i>
+                        <div><span class="ac-title">Avg. Specificity</span><span class="ac-val" id="fin-avg-specificity">99.16%</span></div>
+                    </div>
+                </div>
+
+                <!-- Charts Row -->
+                <div class="panels-grid">
+                    <!-- Disease Distribution -->
+                    <div class="panel">
+                        <div class="panel-header">
+                            <h3 class="panel-title">Disease Distribution (Support)</h3>
+                        </div>
+                        <div class="panel-content chart-container">
+                            <canvas id="distribution-chart"></canvas>
+                        </div>
+                    </div>
+                    <!-- Evaluation List -->
+                    <div class="panel">
+                        <div class="panel-header">
+                            <h3 class="panel-title">Macro Evaluation Metrics</h3>
+                        </div>
+                        <div class="panel-content">
+                            <ul class="metrics-list" id="metrics-list-ui"></ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Complex Eval Row -->
+                <div class="panels-grid-even">
+                    <!-- Confusion Matrix Summary -->
+                    <div class="panel">
+                        <div class="panel-header"><h3 class="panel-title">Confusion Matrix</h3></div>
+                        <div class="panel-content table-responsive" id="cm-preview">Loading...</div>
+                    </div>
+                    <!-- Sensitivity / Specificity -->
+                    <div class="panel">
+                        <div class="panel-header"><h3 class="panel-title">Sensitivity / Specificity</h3></div>
+                        <div class="panel-content table-responsive" id="sens-preview">Loading...</div>
+                    </div>
+                </div>
+
+                <!-- Explainability Row -->
+                <h3 class="section-heading mt-2">Explainable AI (XAI)</h3>
+                <div class="panels-grid">
+                    <div class="panel">
+                        <div class="panel-header"><h3 class="panel-title">Grad-CAM Examples</h3></div>
+                        <div class="panel-content image-container">
+                            <img id="gradcam-image" src="" alt="Grad-CAM" style="display: none;">
+                            <p id="gradcam-na">Loading...</p>
+                        </div>
+                    </div>
+                    <div class="panel">
+                        <div class="panel-header"><h3 class="panel-title">ROC Curve</h3></div>
+                        <div class="panel-content image-container">
+                            <img id="roc-image" src="" alt="ROC Curve" style="display: none;">
+                            <p id="roc-na">Loading...</p>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+    <script src="js/api.js"></script>
+    <script src="js/app.js"></script>
+    <script src="js/dashboard.js"></script>
+</body>
+</html>

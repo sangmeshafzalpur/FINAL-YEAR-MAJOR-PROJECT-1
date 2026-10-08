@@ -1,0 +1,60 @@
+<!-- navbar.html -->
+<nav id="global-navbar" class="navbar bg-transparent text-white">
+    <div class="container navbar-container">
+        
+        <!-- Logo -->
+        <div class="navbar-brand">
+            <a href="index.html" class="nav-logo group">
+                <i class="fas fa-leaf text-chilli-red nav-logo-icon"></i>
+                <span class="nav-logo-text text-gradient">
+                    ChilliFusionNet
+                </span>
+            </a>
+        </div>
+
+        <!-- Desktop Menu -->
+        <div class="navbar-menu hidden-mobile">
+            <a href="index.html" class="nav-link">Home</a>
+            <a href="dashboard.html" class="nav-link">Dashboard</a>
+            <a href="diagnosis.html" class="nav-link">Diagnosis</a>
+            <a href="model.html" class="nav-link">Model</a>
+            <a href="reports.html" class="nav-link">Reports</a>
+            <a href="about.html" class="nav-link">About</a>
+        </div>
+
+        <!-- Status & CTA -->
+        <div class="navbar-actions hidden-mobile">
+            <!-- Status Indicator -->
+            
+            
+            <!-- CTA Button -->
+            <a href="diagnosis.html" class="btn btn-primary btn-hover">
+                <i class="fas fa-camera"></i> Diagnose Leaf
+            </a>
+        </div>
+
+        <!-- Mobile menu button -->
+        <div class="mobile-menu-btn-container hidden-desktop">
+            <button id="mobile-menu-btn" class="mobile-menu-btn" aria-expanded="false">
+                <span class="sr-only">Open main menu</span>
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- Mobile Menu Panel (Hidden by default) -->
+    <div id="mobile-menu" class="mobile-menu-panel hidden">
+        <a href="index.html" class="mobile-nav-link">Home</a>
+        <a href="dashboard.html" class="mobile-nav-link">Dashboard</a>
+        <a href="diagnosis.html" class="mobile-nav-link">Diagnosis</a>
+        <a href="model.html" class="mobile-nav-link">Model</a>
+        <a href="reports.html" class="mobile-nav-link">Reports</a>
+        <a href="about.html" class="mobile-nav-link">About</a>
+        
+        <div class="mobile-nav-cta">
+            <a href="diagnosis.html" class="btn btn-primary btn-block">
+                <i class="fas fa-camera"></i> Diagnose Leaf
+            </a>
+        </div>
+    </div>
+</nav>

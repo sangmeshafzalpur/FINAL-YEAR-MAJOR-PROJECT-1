@@ -1,0 +1,22 @@
+Metric,Value
+Model Name,ChilliFusionNet
+Architecture,EfficientNetB4 + CBAM + BiLSTM
+Input Size,380x380x3
+Number of Classes,5
+Initial Epochs (requested),10
+Fine-tuning Epochs (requested),50
+Actual Epochs Run,44
+Best Epoch,34
+Training Samples,8915
+Validation Samples,2195
+Test Samples,2225
+Best Validation Accuracy,0.9982
+Best Validation Loss,0.0039
+Final Test Accuracy,0.9987
+Test Loss,0.0032
+Macro Precision,0.9987
+Macro Recall,0.9984
+Macro F1,0.9985
+Macro AUC,1.0
+Macro Sensitivity,0.9984
+Macro Specificity,0.9997

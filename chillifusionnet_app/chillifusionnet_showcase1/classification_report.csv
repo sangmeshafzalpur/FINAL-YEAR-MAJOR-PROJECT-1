@@ -1,0 +1,9 @@
+,precision,recall,f1-score,support
+cercospora,0.9968,0.9984,0.9976,621.0
+healthy,1.0,1.0,1.0,617.0
+mites_and_trips,1.0,1.0,1.0,377.0
+nutritional,1.0,1.0,1.0,305.0
+powdery mildew,0.9967,0.9934,0.9951,305.0
+accuracy,0.9987,0.9987,0.9987,0.9987
+macro avg,0.9987,0.9984,0.9985,2225.0
+weighted avg,0.9987,0.9987,0.9987,2225.0

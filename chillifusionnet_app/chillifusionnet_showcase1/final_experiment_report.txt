@@ -1,0 +1,45 @@
+============================================================
+CHILLIFUSIONNET FINAL EXPERIMENT REPORT
+============================================================
+
+Architecture:
+EfficientNetB4 + CBAM + BiLSTM
+
+Classes:
+5
+
+Initial training:
+10 epochs
+
+Fine-tuning:
+50 epochs requested, 34 actually run
+
+Maximum total epochs:
+60
+
+Best validation accuracy:
+0.9982
+
+Test accuracy:
+0.9987
+
+Macro Precision:
+0.9987
+Macro Recall:
+0.9984
+Macro F1:
+0.9985
+Macro AUC:
+1.0000
+Macro Sensitivity:
+0.9984
+Macro Specificity:
+0.9997
+
+Training time:
+207.71 minutes
+
+Model saved to:
+/kaggle/working/chillifusionnet_final.keras
+
+============================================================

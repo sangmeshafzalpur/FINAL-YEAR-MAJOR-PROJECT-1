@@ -1,0 +1,51 @@
+{
+    "matrix": [
+        [
+            "cercospora",
+            "healthy",
+            "mites_and_trips",
+            "nutritional",
+            "powdery mildew"
+        ],
+        [
+            "cercospora",
+            "620",
+            "0",
+            "0",
+            "0",
+            "1"
+        ],
+        [
+            "healthy",
+            "0",
+            "617",
+            "0",
+            "0",
+            "0"
+        ],
+        [
+            "mites_and_trips",
+            "0",
+            "0",
+            "377",
+            "0",
+            "0"
+        ],
+        [
+            "nutritional",
+            "0",
+            "0",
+            "0",
+            "305",
+            "0"
+        ],
+        [
+            "powdery mildew",
+            "2",
+            "0",
+            "0",
+            "0",
+            "303"
+        ]
+    ]
+}

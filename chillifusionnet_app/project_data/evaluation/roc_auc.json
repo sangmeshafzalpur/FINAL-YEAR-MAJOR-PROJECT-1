@@ -1,0 +1,4 @@
+{
+    "macro_auc": 1.0,
+    "per_class_auc": "N/A - See roc_curve.png"
+}

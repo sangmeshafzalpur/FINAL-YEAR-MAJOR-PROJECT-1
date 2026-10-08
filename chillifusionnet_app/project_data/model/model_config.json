@@ -1,0 +1,6 @@
+{
+    "model_name": "ChilliFusionNet",
+    "architecture": "EfficientNetB4 + CBAM + BiLSTM",
+    "input_size": "380x380x3",
+    "number_of_classes": 5
+}

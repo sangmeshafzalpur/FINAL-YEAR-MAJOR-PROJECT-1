@@ -1,0 +1,57 @@
+<!-- frontend/components/footer.html -->
+<footer class="premium-footer" style="background: rgba(15,15,15,0.95); border-top: 1px solid rgba(255,255,255,0.05); padding: 4rem 0 2rem 0; margin-top: 4rem;">
+    <div class="container">
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 3rem; margin-bottom: 3rem;">
+            
+            <!-- Brand -->
+            <div>
+                <a href="index.html" style="display: flex; align-items: center; gap: 0.75rem; text-decoration: none; color: var(--light-text); font-family: 'Outfit', sans-serif; font-size: 1.5rem; font-weight: 800; margin-bottom: 1rem;">
+                    <i class="fas fa-leaf" style="color: var(--primary-green);"></i> ChilliFusionNet
+                </a>
+                <p style="color: #aaa; font-size: 0.95rem; line-height: 1.6;">An advanced deep learning framework utilizing EfficientNetB4, CBAM, and BiLSTM for precise, explainable chilli leaf disease diagnosis.</p>
+            </div>
+            
+            <!-- Navigation -->
+            <div>
+                <h4 style="color: #fff; font-family: 'Outfit', sans-serif; font-size: 1.1rem; margin-bottom: 1.5rem;">Navigation</h4>
+                <ul style="list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 0.8rem;">
+                    <li><a href="dashboard.html" style="color: #888; text-decoration: none; transition: color 0.3s;" onmouseover="this.style.color='var(--primary-green)'" onmouseout="this.style.color='#888'">Dashboard</a></li>
+                    <li><a href="diagnosis.html" style="color: #888; text-decoration: none; transition: color 0.3s;" onmouseover="this.style.color='var(--primary-green)'" onmouseout="this.style.color='#888'">Diagnosis Hub</a></li>
+                    <li><a href="model.html" style="color: #888; text-decoration: none; transition: color 0.3s;" onmouseover="this.style.color='var(--primary-green)'" onmouseout="this.style.color='#888'">Model Architecture</a></li>
+                    <li><a href="reports.html" style="color: #888; text-decoration: none; transition: color 0.3s;" onmouseover="this.style.color='var(--primary-green)'" onmouseout="this.style.color='#888'">Research Reports</a></li>
+                    <li><a href="about.html" style="color: #888; text-decoration: none; transition: color 0.3s;" onmouseover="this.style.color='var(--primary-green)'" onmouseout="this.style.color='#888'">About Project</a></li>
+                </ul>
+            </div>
+            
+            <!-- Model Info -->
+            <div>
+                <h4 style="color: #fff; font-family: 'Outfit', sans-serif; font-size: 1.1rem; margin-bottom: 1.5rem;">Model Info</h4>
+                <ul style="list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 0.8rem; color: #888; font-size: 0.95rem;">
+                    <li><strong style="color: #ccc;">Architecture:</strong> EffNetB4+CBAM+BiLSTM</li>
+                    <li><strong style="color: #ccc;">Parameters:</strong> 22M+</li>
+                    <li><strong style="color: #ccc;">Input Shape:</strong> 380x380x3</li>
+                    <li><strong style="color: #ccc;">Classes:</strong> 5 Disease Categories</li>
+                </ul>
+            </div>
+
+            <!-- Project Links -->
+            <div>
+                <h4 style="color: #fff; font-family: 'Outfit', sans-serif; font-size: 1.1rem; margin-bottom: 1.5rem;">Project Links</h4>
+                <ul style="list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 0.8rem;">
+                    <li><a href="../chillifusionnet_showcase1/chillifusionnet_showcase_report_final.pdf" target="_blank" style="color: #888; text-decoration: none; transition: color 0.3s;" onmouseover="this.style.color='var(--primary-green)'" onmouseout="this.style.color='#888'"><i class="fas fa-file-pdf mr-1"></i> Full Research Report</a></li>
+                    <li><a href="reports.html" style="color: #888; text-decoration: none; transition: color 0.3s;" onmouseover="this.style.color='var(--primary-green)'" onmouseout="this.style.color='#888'"><i class="fas fa-chart-bar mr-1"></i> Evaluation Metrics</a></li>
+                    <li><a href="dashboard.html" style="color: #888; text-decoration: none; transition: color 0.3s;" onmouseover="this.style.color='var(--primary-green)'" onmouseout="this.style.color='#888'"><i class="fas fa-server mr-1"></i> System Status</a></li>
+                </ul>
+            </div>
+
+        </div>
+
+        <div style="border-top: 1px solid rgba(255,255,255,0.05); padding-top: 2rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
+            <p style="color: #666; font-size: 0.9rem; margin: 0;">&copy; <script>document.write(new Date().getFullYear())</script> ChilliFusionNet. All rights reserved.</p>
+            <div style="display: flex; gap: 1rem; color: #666;">
+                <i class="fab fa-github" style="font-size: 1.2rem; cursor: pointer; transition: color 0.3s;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='#666'"></i>
+                <i class="fas fa-database" style="font-size: 1.2rem; cursor: pointer; transition: color 0.3s;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='#666'"></i>
+            </div>
+        </div>
+    </div>
+</footer>

@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ChilliFusionNet | AI-Powered Agriculture</title>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@400;600;800&display=swap" rel="stylesheet">
+    
+    <!-- Icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/animations.css">
+    <link rel="stylesheet" href="css/landing.css">
+</head>
+<body>
+    <!-- Global Navbar Injected Here -->
+    <header id="navbar-container" role="banner"></header>
+    
+    <!-- 1. Cinematic Hero Section with Parallax -->
+    <main role="main">
+    <section class="hero-section" id="hero" aria-label="Hero Section">
+        <div class="parallax-container" id="parallax-wrapper">
+            <!-- Layer 1: Background Field -->
+            <div class="parallax-layer layer-bg" data-speed="0.1">
+                <!-- Fallback to background if chilli-hero is unavailable -->
+                <img src="assets/images/chilli/chilli-hero.jp" onerror="this.src='assets/images/chilli/chilli-background.jp'" alt="Chilli Field Background">
+            </div>
+            
+            <!-- Layer 2: Chilli Leaves (Foreground) -->
+            <div class="parallax-layer layer-leaves" data-speed="0.3">
+                <img src="assets/images/chilli/chilli-leaf.jp" onerror="this.style.display='none'" alt="Chilli Leaves">
+            </div>
+            
+            <!-- Layer 3: Red Chillies (Foreground) -->
+            <div class="parallax-layer layer-peppers" data-speed="0.6">
+                <img src="assets/images/chilli/chilli-peppers.jpg" onerror="this.style.display='none'" alt="Chilli Peppers">
+            </div>
+            
+            <!-- Layer 4: Floating Particles -->
+            <div class="parallax-layer layer-particles" data-speed="0.9">
+                <div class="particles"></div>
+            </div>
+            
+            <!-- Layer 5: Dark Gradient Overlay -->
+            <div class="hero-overlay"></div>
+        </div>
+
+        <div class="container hero-content">
+            <div class="hero-grid">
+                <!-- Left: Content -->
+                <div class="hero-text reveal slide-up">
+                    <div class="hero-badge">
+                        <span class="badge-dot animate-pulse"></span>
+                        POWERED FOR AGRICULTURE
+                    </div>
+                    
+                    <h1 class="hero-title">
+                        Smart Chilli Leaf<br>
+                        Disease Detection
+                    </h1>
+                    
+                    <div class="hero-highlight text-gradient">
+                        Powered by ChilliFusionNet
+                    </div>
+                    
+                    <p class="hero-subtitle">
+                        An explainable deep-learning system for intelligent chilli leaf disease analysis.
+                    </p>
+                    
+                    <div class="hero-buttons">
+                        <a href="diagnosis.html" class="btn btn-primary btn-hover btn-hero">
+                            <i class="fas fa-camera"></i> Diagnose a Leaf
+                        </a>
+                        <a href="model.html" class="btn btn-secondary btn-hover btn-hero">
+                            <i class="fas fa-project-diagram"></i> Explore ChilliFusionNet
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- Right: Visual Space (Empty for Parallax focus) -->
+                <div class="hero-visual"></div>
+            </div>
+        </div>
+        
+        <!-- Scroll Indicator -->
+        <div class="scroll-indicator">
+            <span class="scroll-text">Scroll to explore</span>
+            <i class="fas fa-chevron-down scroll-arrow"></i>
+        </div>
+    </section>
+
+    <!-- 2. Project Pipeline -->
+    <section class="section bg-darker" id="pipeline">
+        <div class="container text-center">
+            <h2 class="section-title reveal slide-up">From Leaf Image to Intelligent Diagnosis</h2>
+            <p class="section-subtitle reveal slide-up reveal-delay-1">The end-to-end analytical pipeline.</p>
+            
+            <div class="pipeline-grid">
+                <div class="pipeline-card glass-card reveal slide-up reveal-delay-1">
+                    <div class="icon-wrapper"><i class="fas fa-upload"></i></div>
+                    <h3>1. Upload</h3>
+                    <p>Raw RGB image submission</p>
+                </div>
+                <div class="pipeline-arrow reveal fade-in reveal-delay-2"><i class="fas fa-arrow-right"></i></div>
+                
+                <div class="pipeline-card glass-card reveal slide-up reveal-delay-2">
+                    <div class="icon-wrapper"><i class="fas fa-crop-alt"></i></div>
+                    <h3>2. Preprocess</h3>
+                    <p>380x380 resolution mapping</p>
+                </div>
+                <div class="pipeline-arrow reveal fade-in reveal-delay-3"><i class="fas fa-arrow-right"></i></div>
+                
+                <div class="pipeline-card glass-card reveal slide-up reveal-delay-3 pipeline-main">
+                    <div class="icon-wrapper"><i class="fas fa-brain text-chilli-red"></i></div>
+                    <h3 class="text-gradient">3. ChilliFusionNet</h3>
+                    <p>Deep Feature Extraction</p>
+                </div>
+                <div class="pipeline-arrow reveal fade-in reveal-delay-4"><i class="fas fa-arrow-right"></i></div>
+                
+                <div class="pipeline-card glass-card reveal slide-up reveal-delay-4">
+                    <div class="icon-wrapper"><i class="fas fa-chart-bar"></i></div>
+                    <h3>4. Prediction</h3>
+                    <p>Probability Distribution</p>
+                </div>
+                <div class="pipeline-arrow reveal fade-in reveal-delay-5"><i class="fas fa-arrow-right"></i></div>
+                
+                <div class="pipeline-card glass-card reveal slide-up reveal-delay-5">
+                    <div class="icon-wrapper"><i class="fas fa-eye"></i></div>
+                    <h3>5. Explainable AI</h3>
+                    <p>Grad-CAM generation</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 3. Disease Classes -->
+    <section class="section" id="classes">
+        <div class="container">
+            <h2 class="section-title text-center reveal slide-up">Supported Classifications</h2>
+            <p class="section-subtitle text-center reveal slide-up reveal-delay-1">ChilliFusionNet is expertly trained to distinguish between these states.</p>
+            
+            <div class="classes-grid" id="disease-classes-container">
+                <!-- Classes will be injected by JS or fallback gracefully -->
+                <div class="class-card glass-card card-hover reveal slide-up">
+                    <i class="fas fa-leaf text-green"></i>
+                    <h3>Healthy</h3>
+                    <p>No visual signs of disease.</p>
+                </div>
+                <div class="class-card glass-card card-hover reveal slide-up reveal-delay-1">
+                    <i class="fas fa-disease text-chilli-red"></i>
+                    <h3>Cercospora</h3>
+                    <p>Fungal infection with distinct leaf spots.</p>
+                </div>
+                <div class="class-card glass-card card-hover reveal slide-up reveal-delay-2">
+                    <i class="fas fa-bug text-orange"></i>
+                    <h3>Mites & Thrips</h3>
+                    <p>Pest damage causing leaf curling.</p>
+                </div>
+                <div class="class-card glass-card card-hover reveal slide-up reveal-delay-3">
+                    <i class="fas fa-seedling text-yellow"></i>
+                    <h3>Nutritional</h3>
+                    <p>Deficiencies causing yellowing.</p>
+                </div>
+                <div class="class-card glass-card card-hover reveal slide-up reveal-delay-4">
+                    <i class="fas fa-snowflake text-white"></i>
+                    <h3>Powdery Mildew</h3>
+                    <p>Fungal growth on leaf surface.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 4. Model Architecture & Performance -->
+    <section class="section bg-darker architecture-section" id="architecture">
+        <div class="container">
+            <div class="arch-perf-grid">
+                
+                <!-- Left: Architecture -->
+                <div class="arch-container glass-card reveal slide-up">
+                    <h3 class="card-title"><i class="fas fa-project-diagram text-green"></i> Hybrid Architecture</h3>
+                    <div class="arch-flow">
+                        <div class="arch-node">
+                            <span class="arch-name">EfficientNetB4</span>
+                            <span class="arch-desc">CNN Backbone</span>
+                        </div>
+                        <div class="arch-link"><i class="fas fa-plus"></i></div>
+                        <div class="arch-node">
+                            <span class="arch-name">CBAM</span>
+                            <span class="arch-desc">Spatial & Channel Attention</span>
+                        </div>
+                        <div class="arch-link"><i class="fas fa-plus"></i></div>
+                        <div class="arch-node">
+                            <span class="arch-name">BiLSTM</span>
+                            <span class="arch-desc">Sequence Modeling</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Right: Performance -->
+                <div class="perf-container glass-card reveal slide-up reveal-delay-2">
+                    <h3 class="card-title"><i class="fas fa-tachometer-alt text-chilli-red"></i> Real Performance Metrics</h3>
+                    <div class="metrics-grid" id="landing-stats">
+                        <div class="metric-box">
+                            <i class="fas fa-circle-notch fa-spin"></i>
+                            <span class="metric-label">Connecting to API...</span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- 5. Explainable AI -->
+    <section class="section xai-section" id="xai">
+        <div class="container">
+            <div class="xai-grid">
+                <div class="xai-text reveal slide-up">
+                    <h2 class="section-title">Transparent Diagnostics</h2>
+                    <h3 class="xai-subtitle text-gradient">Explainable AI (Grad-CAM)</h3>
+                    <p class="xai-desc">
+                        Deep learning models are often black boxes. ChilliFusionNet breaks this barrier by overlaying Gradient-weighted Class Activation Mapping (Grad-CAM) heatmaps onto your uploads.
+                    </p>
+                    <p class="xai-desc">
+                        This allows you to visually verify exactly which lesions, spots, or structural damages the model focused on when making its prediction.
+                    </p>
+                    <a href="diagnosis.html" class="btn btn-secondary btn-hover mt-4">Try it now</a>
+                </div>
+                <div class="xai-visuals reveal scale-in reveal-delay-2">
+                    <div class="xai-img-wrapper glass-card">
+                        <img src="assets/images/chilli/real-chilli-loader.jpg" alt="Original Leaf" class="xai-img">
+                        <span class="xai-label">Original</span>
+                    </div>
+                    <div class="xai-img-wrapper glass-card">
+                        <img src="assets/images/chilli/real-chilli-loader.jpg" alt="Grad-CAM Heatmap" class="xai-img xai-overlay" style="filter: sepia(1) hue-rotate(-50deg) saturate(3) opacity(0.8);">
+                        <span class="xai-label">Heatmap Overlay</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 6. Features Grid -->
+    <section class="section bg-darker features-section" id="features">
+        <div class="container">
+            <h2 class="section-title text-center reveal slide-up">Platform Features</h2>
+            
+            <div class="features-grid">
+                <div class="feature-card glass-card card-hover reveal slide-up">
+                    <i class="fas fa-bolt feature-icon"></i>
+                    <h4>AI Diagnosis</h4>
+                    <p>Instantaneous inference through highly optimized Fast API endpoints.</p>
+                </div>
+                <div class="feature-card glass-card card-hover reveal slide-up reveal-delay-1">
+                    <i class="fas fa-eye feature-icon"></i>
+                    <h4>Explainable </h4>
+                    <p>Visual confirmation of predictions using spatial attention heatmaps.</p>
+                </div>
+                <div class="feature-card glass-card card-hover reveal slide-up reveal-delay-2">
+                    <i class="fas fa-chart-pie feature-icon"></i>
+                    <h4>Model Analytics</h4>
+                    <p>Deep-dive into accuracy, loss, and AUC metrics dynamically.</p>
+                </div>
+                <div class="feature-card glass-card card-hover reveal slide-up reveal-delay-3">
+                    <i class="fas fa-file-contract feature-icon"></i>
+                    <h4>Training Reports</h4>
+                    <p>Complete historical logs of the model's experimental phases.</p>
+                </div>
+                <div class="feature-card glass-card card-hover reveal slide-up reveal-delay-4">
+                    <i class="fas fa-tags feature-icon"></i>
+                    <h4>Disease Classification</h4>
+                    <p>Precision recognition of 5 distinct agricultural states.</p>
+                </div>
+                <div class="feature-card glass-card card-hover reveal slide-up reveal-delay-5">
+                    <i class="fas fa-project-diagram feature-icon"></i>
+                    <h4>Research Visualization</h4>
+                    <p>Detailed architectural breakdowns for scientific review.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 7. Final CTA -->
+    <section class="section cta-section text-center">
+        <div class="container">
+            <div class="cta-banner glass-card reveal scale-in">
+                <h2 class="cta-title">Ready to Analyze a Chilli Leaf?</h2>
+                <p class="cta-desc">Experience the precision of the ChilliFusionNet model today.</p>
+                <a href="diagnosis.html" class="btn btn-primary btn-large btn-hover">
+                    <i class="fas fa-rocket"></i> Start Diagnosis
+                </a>
+            </div>
+        </div>
+    </section>
+
+    </main>
+
+    <!-- Global Footer Injected Here -->
+    <footer id="footer-container" role="contentinfo"></footer>
+
+    <!-- Scripts -->
+    <script src="js/api.js"></script>
+    <script src="js/app.js"></script>
+    <script src="js/landing.js"></script>
+</body>
+</html>
