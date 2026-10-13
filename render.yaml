@@ -1,0 +1,36 @@
+# render.yaml
+# Render Infrastructure-as-Code configuration for ChilliFusionNet Backend.
+# Place this at the root of your GitHub repository so Render auto-detects it.
+
+services:
+  - type: web
+    name: chillifusionnet-backend
+    runtime: python
+    region: oregon
+
+    # Root directory within the repository
+    rootDir: chillifusionnet_app
+
+    # Install Python dependencies
+    buildCommand: pip install --no-cache-dir -r backend/requirements.txt
+
+    # Production start command — workers=1 required because the model is loaded as a singleton
+    startCommand: uvicorn backend.main:app --host 0.0.0.0 --port $PORT --workers 1
+
+    # Health check — Render uses this to verify the service is healthy
+    healthCheckPath: /health
+
+    # Auto-deploy on push to main branch
+    autoDeploy: true
+
+    envVars:
+      - key: CORS_ORIGINS
+        value: "https://YOUR-SITE.netlify.app"
+      - key: PORT
+        generateValue: false
+      - key: PYTHONUNBUFFERED
+        value: "1"
+      - key: PYTHONDONTWRITEBYTECODE
+        value: "1"
+      - key: TF_CPP_MIN_LOG_LEVEL
+        value: "2"

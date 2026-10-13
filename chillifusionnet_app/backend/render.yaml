@@ -1,0 +1,19 @@
+# render.yaml (for deploying with Root Directory set to "backend")
+services:
+  - type: web
+    name: chillifusionnet-backend
+    runtime: python
+    region: oregon
+    buildCommand: pip install --no-cache-dir -r requirements.txt
+    startCommand: uvicorn main:app --host 0.0.0.0 --port $PORT --workers 1
+    healthCheckPath: /health
+    autoDeploy: true
+    envVars:
+      - key: CORS_ORIGINS
+        value: "https://YOUR-SITE.netlify.app"
+      - key: PORT
+        generateValue: false
+      - key: PYTHONUNBUFFERED
+        value: "1"
+      - key: TF_CPP_MIN_LOG_LEVEL
+        value: "2"
