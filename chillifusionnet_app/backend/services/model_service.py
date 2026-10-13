@@ -120,6 +120,7 @@ class ModelService:
                     "ChannelAttention": ChannelAttention,
                     "SpatialAttention": SpatialAttention,
                 },
+                compile=False,
             )
             logger.info("Model and class names loaded successfully.")
         except FileNotFoundError as fnf_err:
