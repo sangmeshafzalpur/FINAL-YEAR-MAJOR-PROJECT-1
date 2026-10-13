@@ -1,0 +1,92 @@
+# .gitignore — ChilliFusionNet
+# Applied at: chillifusionnet_app/
+# ─────────────────────────────────────────────────────────────────────────────
+
+# ── Python ────────────────────────────────────────────────────────────────────
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+*.egg
+*.egg-info/
+dist/
+build/
+.eggs/
+*.pyo
+
+# ── Virtual environments ──────────────────────────────────────────────────────
+venv/
+.venv/
+env/
+ENV/
+.env/
+
+# ── Environment files (NEVER commit real secrets) ────────────────────────────
+.env
+backend/.env
+frontend/.env
+# Keep the examples so developers know what to fill in
+!backend/.env.example
+!frontend/.env.example
+
+# ── Logs ─────────────────────────────────────────────────────────────────────
+*.log
+logs/
+backend/logs/
+
+# ── Temporary uploads (processed in-memory, never persisted) ─────────────────
+backend/uploads/
+uploads/
+
+# ── Generated outputs (Grad-CAM images, saved reports) ────────────────────────
+# Uncomment if you do NOT want to commit generated outputs.
+# If using a Render disk mount, these will live outside the repo anyway.
+# backend/outputs/gradcam/
+# backend/outputs/heatmaps/
+# backend/outputs/reports/diagnosis_history.json
+
+# ── Model files — tracked via Git LFS (see .gitattributes) ───────────────────
+# Do NOT add *.keras to gitignore — it IS committed (via LFS).
+# If you want to exclude it from regular git (not LFS), uncomment:
+# *.keras
+
+# ── IDE / Editor ─────────────────────────────────────────────────────────────
+.vscode/
+.idea/
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
+
+# ── OS ───────────────────────────────────────────────────────────────────────
+desktop.ini
+.DS_Store
+._*
+
+# ── Jupyter ──────────────────────────────────────────────────────────────────
+.ipynb_checkpoints/
+*.ipynb
+
+# ── pytest ───────────────────────────────────────────────────────────────────
+.pytest_cache/
+.coverage
+htmlcov/
+
+# ── mypy ─────────────────────────────────────────────────────────────────────
+.mypy_cache/
+
+# ── Node (if any tooling is added later) ─────────────────────────────────────
+node_modules/
+npm-debug.log
+.npm
+
+# ── Build artifacts ──────────────────────────────────────────────────────────
+*.pyc
+*.pyd
+*.dll
+
+# ── Temp files ───────────────────────────────────────────────────────────────
+temp_reports.json
+*.tmp
+*.bak
+*.orig

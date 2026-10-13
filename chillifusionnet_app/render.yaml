@@ -1,0 +1,92 @@
+# render.yaml
+# Render Infrastructure-as-Code configuration for ChilliFusionNet Backend.
+#
+# DEPLOYMENT STEPS:
+# ─────────────────────────────────────────────────────────────────────────────
+# 1. Push this repository to GitHub.
+# 2. In Render → New → Web Service → Connect your GitHub repo.
+# 3. Render will auto-detect this file.  Confirm the settings below.
+# 4. Set the environment variables listed under `envVars` in the Render
+#    dashboard (the sensitive ones like CORS_ORIGINS).
+# 5. Click "Deploy".
+#
+# MODEL FILE STRATEGY (IMPORTANT — 771 MB model):
+# ─────────────────────────────────────────────────────────────────────────────
+# The trained model (chillifusionnet_final.keras) is 771 MB.
+# GitHub allows files up to 100 MB in regular commits. Files over 100 MB
+# MUST use Git LFS (already configured in .gitattributes).
+#
+# Git LFS IS already enabled for this repo (.gitattributes points to the model).
+# Render supports Git LFS — it will download the model automatically during build.
+# Make sure Git LFS is enabled for your GitHub account/repo:
+#   git lfs install
+#   git lfs track "*.keras"
+#   git add .gitattributes
+#   git lfs push --all origin
+#
+# ALTERNATIVE — Download model during build (if LFS bandwidth is a concern):
+# Uncomment the `buildCommand` lines that use `wget` or `curl` to pull the
+# model from Google Drive, HuggingFace, or any direct-download URL.
+# ─────────────────────────────────────────────────────────────────────────────
+
+services:
+  - type: web
+    name: chillifusionnet-backend
+    runtime: python
+    region: oregon   # Change to: frankfurt, singapore, ohio as preferred
+
+    # Root directory within the repository
+    rootDir: chillifusionnet_app
+
+    # Install Python dependencies
+    buildCommand: pip install --no-cache-dir -r backend/requirements.txt
+
+    # Production start command — workers=1 required because the model is loaded
+    # as a process-level singleton; multiple workers would each load 771 MB.
+    startCommand: uvicorn backend.main:app --host 0.0.0.0 --port $PORT --workers 1
+
+    # Health check — Render uses this to know the service is ready
+    healthCheckPath: /health
+
+    # Auto-deploy on every push to the main branch
+    autoDeploy: true
+
+    # ── Environment Variables ────────────────────────────────────────────────
+    # Variables marked `sync: false` must be set MANUALLY in the Render
+    # dashboard under Environment → Add Environment Variable.
+    # Do NOT commit real values here.
+    envVars:
+      # ── Required: set in Render dashboard ────────────────────────────────
+      - key: CORS_ORIGINS
+        # Replace with your actual Netlify URL after first deployment.
+        # Example: https://chillifusionnet.netlify.app
+        # For local dev testing you can use: http://localhost:3000
+        value: "https://YOUR-SITE.netlify.app"
+
+      # ── Auto-set by Render (do not change) ───────────────────────────────
+      - key: PORT
+        generateValue: false   # Render injects $PORT automatically
+
+      # ── Python runtime settings ───────────────────────────────────────────
+      - key: PYTHONUNBUFFERED
+        value: "1"
+      - key: PYTHONDONTWRITEBYTECODE
+        value: "1"
+
+      # ── TensorFlow memory management ──────────────────────────────────────
+      # Limit TF memory growth so it doesn't OOM on Render's free tier.
+      - key: TF_FORCE_GPU_ALLOW_GROWTH
+        value: "true"
+      - key: TF_CPP_MIN_LOG_LEVEL
+        value: "2"   # 0=all, 1=info, 2=warning, 3=error
+
+    # ── Persistent Disk ──────────────────────────────────────────────────────
+    # The application saves diagnosis_history.json to backend/outputs/reports/.
+    # Without a persistent disk, this file is reset on every redeploy.
+    # Uncomment the disk section below to add a 1 GB persistent disk
+    # ($0.25/month on Render's paid plans — not available on free tier).
+    #
+    # disk:
+    #   name: chillifusionnet-data
+    #   mountPath: /opt/render/project/src/chillifusionnet_app/backend/outputs
+    #   sizeGB: 1

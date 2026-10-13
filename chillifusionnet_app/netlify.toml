@@ -1,0 +1,84 @@
+# netlify.toml
+# Netlify deployment configuration for ChilliFusionNet Frontend.
+#
+# ARCHITECTURE:
+# ─────────────────────────────────────────────────────────────────────────────
+# The frontend is plain HTML/CSS/JS (no bundler).
+# The "build" step is a single bash command that injects the production
+# backend URL into js/config.js before publishing.
+#
+# SETUP STEPS (one-time, in Netlify dashboard):
+# ─────────────────────────────────────────────────────────────────────────────
+# 1. Connect your GitHub repo in Netlify → Add new site → Import from Git.
+# 2. Netlify will detect this netlify.toml automatically.
+# 3. Go to Site Configuration → Environment Variables → Add:
+#
+#      API_BASE_URL = https://chillifusionnet-backend.onrender.com
+#
+#    (Replace with your actual Render Web Service URL after deploying backend.)
+#
+# 4. Click "Deploy site" — Netlify will run the build command and publish.
+#
+# IMPORTANT:
+# ─────────────────────────────────────────────────────────────────────────────
+# API_BASE_URL is a BUILD-TIME variable only.  It is injected into a JS file
+# that is served publicly.  NEVER use it for secrets, API keys, or credentials.
+# ─────────────────────────────────────────────────────────────────────────────
+
+[build]
+  # Root of the repository to run the build from.
+  base = "chillifusionnet_app"
+
+  # The build command injects the production API URL into config.js.
+  # It replaces the __PLACEHOLDER_API_URL__ token with the real Render URL.
+  command = "sed -i \"s|__PLACEHOLDER_API_URL__|${API_BASE_URL}|g\" frontend/js/config.js"
+
+  # The directory Netlify publishes (must contain index.html).
+  publish = "frontend"
+
+  # Node is not required for this pure-HTML project, but we declare a version
+  # anyway to keep the build environment stable.
+  environment = { NODE_VERSION = "20" }
+
+[build.environment]
+  # Production API URL — OVERRIDE THIS in Netlify dashboard, do not set real
+  # values here since this file is committed to the repository.
+  API_BASE_URL = "https://YOUR-RENDER-SERVICE.onrender.com"
+
+# ── SPA / Multi-page routing ─────────────────────────────────────────────────
+# Since this project uses multi-page HTML (not a SPA with client-side routing),
+# full catch-all redirect is not needed.  Only a 404 fallback is configured.
+[[redirects]]
+  from   = "/404"
+  to     = "/index.html"
+  status = 200
+
+# ── Security headers ─────────────────────────────────────────────────────────
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options        = "DENY"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy        = "strict-origin-when-cross-origin"
+
+# ── Cache: static assets ─────────────────────────────────────────────────────
+[[headers]]
+  for = "/css/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/js/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/assets/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+# ── Cache: HTML pages (never cache to pick up new deploys) ───────────────────
+[[headers]]
+  for = "/*.html"
+  [headers.values]
+    Cache-Control = "no-cache, no-store, must-revalidate"

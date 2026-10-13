@@ -1,0 +1,25 @@
+# .gitignore — Repository root
+# ─────────────────────────────────────────────────────────────────────────────
+# Root-level ignores (applies to the entire repo, not just the app subdirectory)
+
+# Virtual environments at repo root
+venv/
+.venv/
+env/
+
+# Python cache at root level
+__pycache__/
+*.py[cod]
+*.pyo
+
+# Secrets
+.env
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Editor
+.vscode/
+.idea/

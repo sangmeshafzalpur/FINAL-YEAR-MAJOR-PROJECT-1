@@ -1,11 +1,29 @@
-fastapi
-uvicorn[standard]
-tensorflow
-pillow
-numpy
-python-multipart
-pydantic
-pydantic-settings
-opencv-python
-matplotlib
-pandas
+# ChilliFusionNet Backend — Python Dependencies
+# ────────────────────────────────────────────────────────────────────────────
+# Pin versions for reproducible production builds on Render.
+# To upgrade: change the version here, test locally, then redeploy.
+#
+# Install:  pip install -r requirements.txt
+# ────────────────────────────────────────────────────────────────────────────
+
+# Web framework
+fastapi==0.115.5
+uvicorn[standard]==0.32.0
+
+# ML / Inference
+# tensorflow-cpu saves ~500 MB on Render's free tier (no GPU on Render anyway)
+tensorflow-cpu==2.17.0
+numpy==1.26.4
+
+# Image processing
+pillow==10.4.0
+opencv-python-headless==4.10.0.84
+
+# Data / Reporting
+matplotlib==3.9.2
+pandas==2.2.3
+
+# FastAPI dependencies
+python-multipart==0.0.12
+pydantic==2.9.2
+pydantic-settings==2.6.1
